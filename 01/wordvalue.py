@@ -13,8 +13,7 @@ def calc_word_value(word):
 def max_word_value(in_list=load_words()):
     """Calculate the word with the max value, can receive a list
     of words as arg, if none provided uses default DICTIONARY"""
-    return max(((word, calc_word_value(word)) for word in in_list),
-               key=lambda x: x[1])[0]
+    return max(in_list, key=calc_word_value)
 
 if __name__ == "__main__":
     pass # run unittests to validate
