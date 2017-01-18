@@ -42,7 +42,7 @@ def main():
 
     # Calculate possible words by generating all permutations with 1 to
     # NUM_LETTERS letters and checking if the word is in the dictionary
-    possible_words = ["".join(word) for i in range(NUM_LETTERS)
+    possible_words = ["".join(word) for i in range(1, NUM_LETTERS + 1)
                       for word in itertools.permutations(cur_letters, i)
                       if "".join(word).lower() in DICTIONARY]
 
