@@ -2,6 +2,7 @@
 # Code Challenge 02 - Word Values Part II - a simple game
 # http://pybit.es/codechallenge02.html
 
+import collections
 import itertools
 import random
 import sys
@@ -28,15 +29,26 @@ def draw_letters():
 def get_user_input(draw):
     """Read the user input and validate it"""
     user_word = input("Form a valid word: ")
-    if user_word.lower() not in DICTIONARY:
-        print("Unknown word: {}".format(user_word))
+
+    try:
+        return _validation(user_word, draw)
+    except ValueError as e:
+        print(e)
         sys.exit(1)
 
-    if any(x not in draw for x in user_word.upper()):
-        print("Can not build {} from letters".format(user_word))
-        sys.exit(1)
+def _validation(word, draw):
+    """Validate the user word against the draw"""
+    word_counter = collections.Counter(word.upper())
+    draw_counter = collections.Counter(draw)
 
-    return user_word
+    if word.lower() not in DICTIONARY:
+        raise ValueError("Unknown word: {}".format(word))
+
+    for letter, num in word_counter.items():
+        if letter not in draw_counter or num > draw_counter[letter]:
+            raise ValueError("Can not build '{}' from letters".format(word))
+
+    return word
 
 def get_possible_dict_words(draw):
     """Calculate possible words by generating all permutations from draw and
